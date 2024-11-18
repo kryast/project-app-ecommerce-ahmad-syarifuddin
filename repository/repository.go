@@ -7,11 +7,13 @@ import (
 )
 
 type AllRepository struct {
-	SampelRepo SampelRepository
+	SampelRepo   SampelRepository
+	RegisterRepo RegisterRepositoryDB
 }
 
 func NewAllRepository(db *sql.DB, log *zap.Logger) AllRepository {
 	return AllRepository{
-		SampelRepo: NewSampelRepository(db, log),
+		SampelRepo:   NewSampelRepository(db, log),
+		RegisterRepo: NewRegisterRepository(db, log),
 	}
 }

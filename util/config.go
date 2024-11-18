@@ -1,6 +1,8 @@
 package util
 
-import "github.com/spf13/viper"
+import (
+	"github.com/spf13/viper"
+)
 
 type Configuration struct {
 	AppName string
@@ -17,6 +19,13 @@ type DatabaseConfig struct {
 }
 
 func ReadConfiguration() (Configuration, error) {
+	viper.SetConfigFile(".env")
+	viper.SetConfigType("env")
+
+	if err := viper.ReadInConfig(); err != nil {
+		panic("Error reading .env file: " + err.Error())
+	}
+
 	viper.AutomaticEnv()
 
 	return Configuration{
@@ -24,7 +33,7 @@ func ReadConfiguration() (Configuration, error) {
 		Port:    viper.GetString("PORT"),
 		Debug:   viper.GetBool("DEBUG"),
 		DB: DatabaseConfig{
-			Name:     viper.GetString("DATABES_NAME"),
+			Name:     viper.GetString("DATABASE_NAME"),
 			Username: viper.GetString("DATABASE_USERNAME"),
 			Password: viper.GetString("DATABASE_PASSWORD"),
 			Host:     viper.GetString("DATABASE_HOST"),
