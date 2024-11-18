@@ -31,7 +31,8 @@ func InitRouter() (*chi.Mux, *zap.Logger, error) {
 	Handle := handler.NewAllHandler(service, logger, config)
 
 	r.HandleFunc("/", Handle.SampelHandler.Create)
-	r.Post("/register", Handle.RegisterHandler.Register)
+	r.Post("/register", Handle.AuthHandler.Register)
+	r.Post("/login", Handle.AuthHandler.Login)
 
 	return r, logger, nil
 }

@@ -8,19 +8,19 @@ import (
 	"go.uber.org/zap"
 )
 
-type RegisterRepositoryDB struct {
+type AuthRepositoryDB struct {
 	DB     *sql.DB
 	Logger *zap.Logger
 }
 
-func NewRegisterRepository(db *sql.DB, Log *zap.Logger) RegisterRepositoryDB {
-	return RegisterRepositoryDB{
+func NewAuthRepository(db *sql.DB, Log *zap.Logger) AuthRepositoryDB {
+	return AuthRepositoryDB{
 		DB:     db,
 		Logger: Log,
 	}
 }
 
-func (r *RegisterRepositoryDB) Register(register *model.Register) error {
+func (r *AuthRepositoryDB) Register(register *model.Register) error {
 	query := `
 		INSERT INTO auths (name, email, phone, password)
 		VALUES ($1, 
@@ -38,7 +38,7 @@ func (r *RegisterRepositoryDB) Register(register *model.Register) error {
 	return nil
 }
 
-func (r *RegisterRepositoryDB) CheckEmailOrPhoneExists(register *model.Register) (bool, error) {
+func (r *AuthRepositoryDB) CheckEmailOrPhoneExists(register *model.Register) (bool, error) {
 	var count int
 	query := `
 		SELECT COUNT(*) 

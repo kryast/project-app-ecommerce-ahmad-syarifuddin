@@ -8,14 +8,14 @@ import (
 )
 
 type AllHandler struct {
-	SampelHandler   SampelHandler
-	RegisterHandler RegisterHandler
+	SampelHandler SampelHandler
+	AuthHandler   AuthHandler
 }
 
 func NewAllHandler(service service.AllService, log *zap.Logger, config util.Configuration) AllHandler {
 	return AllHandler{
-		SampelHandler:   NewSampelService(service, log, config),
-		RegisterHandler: NewRegisterHandler(service, log, config),
+		SampelHandler: NewSampelService(service, log, config),
+		AuthHandler:   NewAuthHandler(service, log, config),
 	}
 
 }

@@ -7,13 +7,13 @@ import (
 )
 
 type AllService struct {
-	SampelService   SampelService
-	RegisterService RegisterService
+	SampelService SampelService
+	AuthService   AuthService
 }
 
 func NewAllService(repo repository.AllRepository, log *zap.Logger) AllService {
 	return AllService{
-		SampelService:   NewSampelService(repo, log),
-		RegisterService: NewRegisterService(repo, log),
+		SampelService: NewSampelService(repo, log),
+		AuthService:   NewAuthService(repo, log),
 	}
 }
