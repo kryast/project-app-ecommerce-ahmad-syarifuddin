@@ -1,3 +1,1 @@
-{"L":"INFO","T":"2024-11-19T04:11:48.953+0700","M":"Server run on post 8080"}
-{"L":"ERROR","T":"2024-11-19T04:11:59.512+0700","M":"Failed to login user","error":"incorrect password"}
-{"L":"ERROR","T":"2024-11-19T04:11:59.512+0700","M":"Failed to login","error":"failed to login user: incorrect password"}
+{"L":"INFO","T":"2024-11-20T00:03:48.972+0700","M":"Server run on post 8080"}
