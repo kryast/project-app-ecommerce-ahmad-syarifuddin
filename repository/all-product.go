@@ -47,7 +47,6 @@ func (repo *ProductRepositoryDB) GetAllProducts() ([]model.Product, error) {
 
 	var products []model.Product
 
-	// Iterate over the rows and scan into the Product struct
 	for rows.Next() {
 		var product model.Product
 		err := rows.Scan(&product.Name, &product.Detail, &product.Price, &product.Category, &product.PhotoURL)
@@ -58,7 +57,6 @@ func (repo *ProductRepositoryDB) GetAllProducts() ([]model.Product, error) {
 		products = append(products, product)
 	}
 
-	// Check for errors encountered during iteration
 	if err := rows.Err(); err != nil {
 		repo.Logger.Error("Error iterating rows", zap.Error(err))
 		return nil, fmt.Errorf("error iterating rows: %w", err)

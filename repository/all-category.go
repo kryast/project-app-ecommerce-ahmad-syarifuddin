@@ -21,7 +21,6 @@ func (repo *ProductRepositoryDB) GetAllCategory() ([]model.Category, error) {
 
 	var categories []model.Category
 
-	// Iterate over the rows and scan into the Product struct
 	for rows.Next() {
 		var category model.Category
 		err := rows.Scan(&category.Name)
@@ -32,7 +31,6 @@ func (repo *ProductRepositoryDB) GetAllCategory() ([]model.Category, error) {
 		categories = append(categories, category)
 	}
 
-	// Check for errors encountered during iteration
 	if err := rows.Err(); err != nil {
 		repo.Logger.Error("Error iterating rows", zap.Error(err))
 		return nil, fmt.Errorf("error iterating rows: %w", err)

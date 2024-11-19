@@ -12,7 +12,6 @@ type ProductService struct {
 	Logger *zap.Logger
 }
 
-// NewProductService creates a new instance of ProductService
 func NewProductService(repo repository.AllRepository, logger *zap.Logger) ProductService {
 	return ProductService{
 		Repo:   repo,
@@ -20,12 +19,9 @@ func NewProductService(repo repository.AllRepository, logger *zap.Logger) Produc
 	}
 }
 
-// GetProducts retrieves a list of products using the repository
 func (ps *ProductService) GetAllProducts() ([]model.Product, error) {
-	// Call the repository to get products
 	products, err := ps.Repo.ProductRepo.GetAllProducts()
 	if err != nil {
-		// Log and propagate the error
 		ps.Repo.ProductRepo.Logger.Error("Error fetching products", zap.Error(err))
 		return nil, err
 	}

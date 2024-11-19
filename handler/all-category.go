@@ -8,7 +8,6 @@ import (
 )
 
 func (ph *ProductHandler) GetAllCategory(w http.ResponseWriter, r *http.Request) {
-	// Fetch products using the service layer
 	categories, err := ph.Service.ProductService.GetAllCategory()
 	if err != nil {
 		ph.Logger.Error("Error getting products", zap.Error(err))

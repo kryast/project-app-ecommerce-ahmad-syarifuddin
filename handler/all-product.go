@@ -24,7 +24,6 @@ func NewProductHandler(service service.AllService, logger *zap.Logger, config ut
 }
 
 func (ph *ProductHandler) GetAllProducts(w http.ResponseWriter, r *http.Request) {
-	// Fetch products using the service layer
 	products, err := ph.Service.ProductService.GetAllProducts()
 	if err != nil {
 		ph.Logger.Error("Error getting products", zap.Error(err))
