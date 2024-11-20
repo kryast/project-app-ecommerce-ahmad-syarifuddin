@@ -23,6 +23,7 @@ func NewProductRepository(db *sql.DB, Log *zap.Logger) ProductRepositoryDB {
 func (repo *ProductRepositoryDB) GetAllProducts() ([]model.Product, error) {
 	query := `
 		SELECT 
+			pd.id,
 			p.name AS product_name,
 			p.detail AS product_detail,
 			p.price AS product_price,
@@ -49,7 +50,7 @@ func (repo *ProductRepositoryDB) GetAllProducts() ([]model.Product, error) {
 
 	for rows.Next() {
 		var product model.Product
-		err := rows.Scan(&product.Name, &product.Detail, &product.Price, &product.Category, &product.PhotoURL)
+		err := rows.Scan(&product.ID, &product.Name, &product.Detail, &product.Price, &product.Category, &product.PhotoURL)
 		if err != nil {
 			repo.Logger.Error("Error scanning row", zap.Error(err))
 			return nil, fmt.Errorf("failed to scan row: %w", err)

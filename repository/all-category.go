@@ -9,7 +9,7 @@ import (
 
 func (repo *ProductRepositoryDB) GetAllCategory() ([]model.Category, error) {
 	query := `
-		SELECT name from categories
+		SELECT id, name from categories
 	`
 
 	rows, err := repo.DB.Query(query)
@@ -23,7 +23,7 @@ func (repo *ProductRepositoryDB) GetAllCategory() ([]model.Category, error) {
 
 	for rows.Next() {
 		var category model.Category
-		err := rows.Scan(&category.Name)
+		err := rows.Scan(&category.ID, &category.Name)
 		if err != nil {
 			repo.Logger.Error("Error scanning row", zap.Error(err))
 			return nil, fmt.Errorf("failed to scan row: %w", err)

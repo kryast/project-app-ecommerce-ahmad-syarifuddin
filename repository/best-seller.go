@@ -10,6 +10,7 @@ import (
 func (repo *ProductRepositoryDB) GetBestSellers() ([]model.ProductBestSeller, error) {
 	query := `
         SELECT 
+			ti.id,
             p.name AS product_name,
             SUM(ti.quantity) AS total_sold
         FROM 
@@ -23,7 +24,7 @@ func (repo *ProductRepositoryDB) GetBestSellers() ([]model.ProductBestSeller, er
         WHERE 
             t.id = 2 
         GROUP BY 
-			p.name
+			ti.id ,p.name
         ORDER BY 
             total_sold DESC
         LIMIT 5;
@@ -40,7 +41,7 @@ func (repo *ProductRepositoryDB) GetBestSellers() ([]model.ProductBestSeller, er
 
 	for rows.Next() {
 		var bestSeller model.ProductBestSeller
-		err := rows.Scan(&bestSeller.Name, &bestSeller.TotalSold)
+		err := rows.Scan(&bestSeller.ID, &bestSeller.Name, &bestSeller.TotalSold)
 		if err != nil {
 			repo.Logger.Error("Error scanning row", zap.Error(err))
 			return nil, fmt.Errorf("failed to scan row: %w", err)
