@@ -39,7 +39,9 @@ func InitRouter() (*chi.Mux, *zap.Logger, error) {
 	r.Get("/banner", Handle.ProductHandler.GetAllBanner)
 
 	r.Get("/products/{id}", Handle.ProductHandler.GetProductByIdHandler)
-	r.Post("/products/{id}/add-wishlist", Handle.ProductHandler.AddToWishlistHandler)
+	r.Post("/products/{id}/wishlist", Handle.ProductHandler.AddToWishlistHandler)
+
+	r.Delete("/products/{id}/wishlist", Handle.ProductHandler.DeleteFromWishlist)
 
 	return r, logger, nil
 }
