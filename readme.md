@@ -62,3 +62,17 @@ insert into transaction_items (transaction_id, product_details_id, quantity) val
         ORDER BY 
             total_quantity DESC
         LIMIT 5;
+
+CREATE TABLE promo_weekly (
+    id SERIAL PRIMARY KEY,
+    product_details_id INT references product_details(id),
+    start_week DATE ,
+    end_week DATE 
+);
+
+insert into promo_weekly (product_details_id, start_week, end_week) Values
+(1, '2024-11-21', '2024-11-21'),
+(2, '2024-11-21', '2024-11-21'),
+(3, '2024-11-21', '2024-11-21'),
+(4, '2024-12-01', '2024-11-08'),
+(5, '2024-12-01', '2024-11-08');

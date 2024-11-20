@@ -47,5 +47,7 @@ func InitRouter() (*chi.Mux, *zap.Logger, error) {
 
 	r.Get("/products/recomment", Handle.ProductHandler.GetAllRecomment)
 
+	r.Get("/products/promo-weekly", Handle.ProductHandler.GetPromoWeekly)
+
 	return r, logger, nil
 }
