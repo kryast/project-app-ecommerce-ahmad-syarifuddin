@@ -30,7 +30,6 @@ func InitRouter() (*chi.Mux, *zap.Logger, error) {
 	service := service.NewAllService(repo, logger)
 	Handle := handler.NewAllHandler(service, logger, config)
 
-	r.HandleFunc("/", Handle.SampelHandler.Create)
 	r.Post("/register", Handle.AuthHandler.Register)
 	r.Post("/login", Handle.AuthHandler.Login)
 
@@ -38,6 +37,9 @@ func InitRouter() (*chi.Mux, *zap.Logger, error) {
 	r.Get("/categories", Handle.ProductHandler.GetAllCategory)
 	r.Get("/best-seller", Handle.ProductHandler.GetBestSellers)
 	r.Get("/banner", Handle.ProductHandler.GetAllBanner)
+
+	r.Get("/products/{id}", Handle.ProductHandler.GetProductByIdHandler)
+	r.Post("/products/{id}/add-wishlist", Handle.ProductHandler.AddToWishlistHandler)
 
 	return r, logger, nil
 }
