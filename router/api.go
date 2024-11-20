@@ -43,5 +43,7 @@ func InitRouter() (*chi.Mux, *zap.Logger, error) {
 
 	r.Delete("/products/{id}/wishlist", Handle.ProductHandler.DeleteFromWishlist)
 
+	r.Get("/products/cart", Handle.ProductHandler.GetAllCart)
+
 	return r, logger, nil
 }
