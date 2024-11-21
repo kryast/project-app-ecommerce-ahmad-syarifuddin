@@ -3,6 +3,7 @@ package repository
 import (
 	"fmt"
 	"project-app-ecommerce-ahmad-syarifuddin/model"
+	"time"
 
 	"go.uber.org/zap"
 )
@@ -64,6 +65,14 @@ func (repo *ProductRepositoryDB) GetAllProductsFilter(nameTerm, categoryTerm str
 			repo.Logger.Error("Error scanning row", zap.Error(err))
 			return nil, 0, fmt.Errorf("failed to scan row: %w", err)
 		}
+
+		daysSinceCreation := time.Since(product.CreatedAt).Hours() / 24
+		if daysSinceCreation < 30 {
+			product.FlagNew = "true"
+		} else {
+			product.FlagNew = ""
+		}
+
 		products = append(products, &product)
 	}
 
