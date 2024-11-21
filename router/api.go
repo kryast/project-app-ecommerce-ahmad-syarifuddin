@@ -52,5 +52,7 @@ func InitRouter() (*chi.Mux, *zap.Logger, error) {
 	r.Post("/products/{id}/add-cart/{quantity}", Handle.ProductHandler.AddToCart)
 	r.Post("/products/{id}/add-cart", Handle.ProductHandler.AddToCart)
 
+	r.Get("/products/search", Handle.ProductHandler.SearchProducts)
+
 	return r, logger, nil
 }
