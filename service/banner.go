@@ -6,7 +6,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func (ps *ProductService) GetAllBanner() ([]model.Banner, error) {
+func (ps *ProductService) GetAllBanner() ([]*model.Banner, error) {
 	banners, err := ps.Repo.ProductRepo.GetAllBanner()
 	if err != nil {
 		ps.Repo.ProductRepo.Logger.Error("Error fetching banners", zap.Error(err))

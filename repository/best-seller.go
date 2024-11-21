@@ -7,7 +7,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func (repo *ProductRepositoryDB) GetBestSellers() ([]model.ProductBestSeller, error) {
+func (repo *ProductRepositoryDB) GetBestSellers() ([]*model.ProductBestSeller, error) {
 	query := `
         SELECT 
 			ti.id,
@@ -37,7 +37,7 @@ func (repo *ProductRepositoryDB) GetBestSellers() ([]model.ProductBestSeller, er
 	}
 	defer rows.Close()
 
-	var bestSellers []model.ProductBestSeller
+	var bestSellers []*model.ProductBestSeller
 
 	for rows.Next() {
 		var bestSeller model.ProductBestSeller
@@ -46,7 +46,7 @@ func (repo *ProductRepositoryDB) GetBestSellers() ([]model.ProductBestSeller, er
 			repo.Logger.Error("Error scanning row", zap.Error(err))
 			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}
-		bestSellers = append(bestSellers, bestSeller)
+		bestSellers = append(bestSellers, &bestSeller)
 	}
 
 	if err := rows.Err(); err != nil {

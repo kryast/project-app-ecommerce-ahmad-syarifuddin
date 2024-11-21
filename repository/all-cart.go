@@ -2,7 +2,7 @@ package repository
 
 import "project-app-ecommerce-ahmad-syarifuddin/model"
 
-func (repo *ProductRepositoryDB) GetAllCart() ([]model.Cart, error) {
+func (repo *ProductRepositoryDB) GetAllCart() ([]*model.Cart, error) {
 	query := `
         SELECT 
             ti.id,
@@ -33,7 +33,7 @@ func (repo *ProductRepositoryDB) GetAllCart() ([]model.Cart, error) {
 	}
 	defer rows.Close()
 
-	var carts []model.Cart
+	var carts []*model.Cart
 	// var totalPrice float64
 
 	for rows.Next() {
@@ -43,7 +43,7 @@ func (repo *ProductRepositoryDB) GetAllCart() ([]model.Cart, error) {
 		}
 		// cart.TotalPrice = cart.Subtotal
 		// totalPrice += cart.Subtotal
-		carts = append(carts, cart)
+		carts = append(carts, &cart)
 	}
 
 	if err := rows.Err(); err != nil {

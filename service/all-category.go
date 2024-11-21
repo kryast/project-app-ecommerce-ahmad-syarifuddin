@@ -6,7 +6,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func (ps *ProductService) GetAllCategory() ([]model.Category, error) {
+func (ps *ProductService) GetAllCategory() ([]*model.Category, error) {
 	categories, err := ps.Repo.ProductRepo.GetAllCategory()
 	if err != nil {
 		ps.Repo.ProductRepo.Logger.Error("Error fetching products", zap.Error(err))

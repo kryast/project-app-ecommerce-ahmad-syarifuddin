@@ -7,7 +7,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func (repo *ProductRepositoryDB) GetAllCategory() ([]model.Category, error) {
+func (repo *ProductRepositoryDB) GetAllCategory() ([]*model.Category, error) {
 	query := `
 		SELECT id, name from categories
 	`
@@ -19,7 +19,7 @@ func (repo *ProductRepositoryDB) GetAllCategory() ([]model.Category, error) {
 	}
 	defer rows.Close()
 
-	var categories []model.Category
+	var categories []*model.Category
 
 	for rows.Next() {
 		var category model.Category
@@ -28,7 +28,7 @@ func (repo *ProductRepositoryDB) GetAllCategory() ([]model.Category, error) {
 			repo.Logger.Error("Error scanning row", zap.Error(err))
 			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}
-		categories = append(categories, category)
+		categories = append(categories, &category)
 	}
 
 	if err := rows.Err(); err != nil {

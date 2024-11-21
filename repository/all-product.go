@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"project-app-ecommerce-ahmad-syarifuddin/model"
+	"time"
 
 	"go.uber.org/zap"
 )
@@ -20,7 +21,7 @@ func NewProductRepository(db *sql.DB, Log *zap.Logger) ProductRepositoryDB {
 	}
 }
 
-func (repo *ProductRepositoryDB) GetAllProducts() ([]model.Product, error) {
+func (repo *ProductRepositoryDB) GetAllProducts() ([]*model.Product, error) {
 	query := `
 		SELECT 
 			pd.id,
@@ -28,7 +29,8 @@ func (repo *ProductRepositoryDB) GetAllProducts() ([]model.Product, error) {
 			p.detail AS product_detail,
 			p.price AS product_price,
 			c.name AS category_name,
-			ph.photo_url
+			ph.photo_url,
+			p.created_at
 		FROM 
 			product_details pd
 		JOIN 
@@ -46,16 +48,25 @@ func (repo *ProductRepositoryDB) GetAllProducts() ([]model.Product, error) {
 	}
 	defer rows.Close()
 
-	var products []model.Product
+	var products []*model.Product
 
 	for rows.Next() {
 		var product model.Product
-		err := rows.Scan(&product.ID, &product.Name, &product.Detail, &product.Price, &product.Category, &product.PhotoURL)
+
+		err := rows.Scan(&product.ID, &product.Name, &product.Detail, &product.Price, &product.Category, &product.PhotoURL, &product.CreatedAt)
 		if err != nil {
 			repo.Logger.Error("Error scanning row", zap.Error(err))
 			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}
-		products = append(products, product)
+
+		daysSinceCreation := time.Since(product.CreatedAt).Hours() / 24
+		if daysSinceCreation < 30 {
+			product.FlagNew = "true"
+		} else {
+			product.FlagNew = ""
+		}
+
+		products = append(products, &product)
 	}
 
 	if err := rows.Err(); err != nil {

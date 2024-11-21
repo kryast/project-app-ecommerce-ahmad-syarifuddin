@@ -19,7 +19,7 @@ func NewProductService(repo repository.AllRepository, logger *zap.Logger) Produc
 	}
 }
 
-func (ps *ProductService) GetAllProducts() ([]model.Product, error) {
+func (ps *ProductService) GetAllProducts() ([]*model.Product, error) {
 	products, err := ps.Repo.ProductRepo.GetAllProducts()
 	if err != nil {
 		ps.Repo.ProductRepo.Logger.Error("Error fetching products", zap.Error(err))
