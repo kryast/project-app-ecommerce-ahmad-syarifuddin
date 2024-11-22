@@ -5,7 +5,7 @@ import "project-app-ecommerce-ahmad-syarifuddin/model"
 func (repo *ProductRepositoryDB) GetAllCart() ([]*model.Cart, error) {
 	query := `
         SELECT 
-            ti.id,
+            pd.id AS product_details_id,
             p.name AS product_name,
             p.price AS product_price,
             SUM(ti.quantity) AS total_quantity,
@@ -21,7 +21,7 @@ func (repo *ProductRepositoryDB) GetAllCart() ([]*model.Cart, error) {
         WHERE 
             t.id = 1 
         GROUP BY 
-            ti.id, p.name, p.price
+            pd.id, p.name, p.price
         ORDER BY 
             total_quantity DESC;
     `
@@ -33,15 +33,15 @@ func (repo *ProductRepositoryDB) GetAllCart() ([]*model.Cart, error) {
 	defer rows.Close()
 
 	var carts []*model.Cart
-	// var totalPrice float64
+	var totalPrice float64
 
 	for rows.Next() {
 		var cart model.Cart
 		if err := rows.Scan(&cart.ID, &cart.Product, &cart.Price, &cart.Quantity, &cart.Subtotal); err != nil {
 			return nil, err
 		}
-		// cart.TotalPrice = cart.Subtotal
-		// totalPrice += cart.Subtotal
+		cart.TotalPrice = cart.Subtotal
+		totalPrice += cart.Subtotal
 		carts = append(carts, &cart)
 	}
 
@@ -49,9 +49,9 @@ func (repo *ProductRepositoryDB) GetAllCart() ([]*model.Cart, error) {
 		return nil, err
 	}
 
-	// for i := range carts {
-	// 	carts[i].TotalPrice = totalPrice
-	// }
+	for i := range carts {
+		carts[i].TotalPrice = totalPrice
+	}
 
 	return carts, nil
 }
