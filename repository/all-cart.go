@@ -23,8 +23,7 @@ func (repo *ProductRepositoryDB) GetAllCart() ([]*model.Cart, error) {
         GROUP BY 
             ti.id, p.name, p.price
         ORDER BY 
-            total_quantity DESC
-        LIMIT 5;
+            total_quantity DESC;
     `
 
 	rows, err := repo.DB.Query(query)
