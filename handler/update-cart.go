@@ -4,26 +4,23 @@ import (
 	"net/http"
 	"project-app-ecommerce-ahmad-syarifuddin/helper"
 	"strconv"
+
+	"github.com/go-chi/chi/v5"
 )
 
 func (ph *ProductHandler) UpdateCartQuantity(w http.ResponseWriter, r *http.Request) {
 
-	productDetailsIDStr := r.URL.Query().Get("product_details_id")
-	newQuantityStr := r.URL.Query().Get("new_quantity")
+	id := helper.GetID(w, r)
 
-	productDetailsID, err := strconv.Atoi(productDetailsIDStr)
-	if err != nil {
-		http.Error(w, "Invalid product_details_id", http.StatusBadRequest)
+	quantityParam := chi.URLParam(r, "quantity")
+
+	newQuantity, err := strconv.Atoi(quantityParam)
+	if err != nil || newQuantity <= 0 {
+		http.Error(w, "Invalid quantity", http.StatusBadRequest)
 		return
 	}
 
-	newQuantity, err := strconv.Atoi(newQuantityStr)
-	if err != nil {
-		http.Error(w, "Invalid new_quantity", http.StatusBadRequest)
-		return
-	}
-
-	err = ph.Service.ProductService.UpdateCartQuantity(productDetailsID, newQuantity)
+	err = ph.Service.ProductService.UpdateCartQuantity(id, newQuantity)
 	if err != nil {
 		http.Error(w, "Failed to update cart quantity", http.StatusInternalServerError)
 		return
