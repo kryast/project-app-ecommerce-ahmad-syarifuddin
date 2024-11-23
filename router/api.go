@@ -60,6 +60,7 @@ func InitRouter() (*chi.Mux, *zap.Logger, error) {
 
 	r.Get("/products/search", Handle.ProductHandler.SearchProducts)
 	r.Get("/profile/{id}", Handle.AuthHandler.GetProfileByID)
+	r.Put("/profile/{id}", Handle.AuthHandler.UpdateProfile)
 
 	r.With(middleware.CheckLoginMiddleware(db, logger)).Group(func(r chi.Router) {
 		r.Get("/auth/{id}/order", Handle.ProductHandler.CreateOrder)
