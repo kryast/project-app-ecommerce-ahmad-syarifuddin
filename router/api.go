@@ -3,6 +3,7 @@ package router
 import (
 	"project-app-ecommerce-ahmad-syarifuddin/database"
 	"project-app-ecommerce-ahmad-syarifuddin/handler"
+	"project-app-ecommerce-ahmad-syarifuddin/middleware"
 	"project-app-ecommerce-ahmad-syarifuddin/repository"
 	"project-app-ecommerce-ahmad-syarifuddin/service"
 	"project-app-ecommerce-ahmad-syarifuddin/util"
@@ -46,6 +47,7 @@ func InitRouter() (*chi.Mux, *zap.Logger, error) {
 	r.Get("/products/cart", Handle.ProductHandler.GetAllCart)
 
 	r.Put("/products/{id}/cart/{quantity}", Handle.ProductHandler.UpdateCartQuantity)
+	r.Delete("/products/{id}/cart", Handle.ProductHandler.DeleteCartItemHandler)
 
 	r.Get("/products/total-cart", Handle.ProductHandler.GetTotalCartQuantity)
 
@@ -58,5 +60,8 @@ func InitRouter() (*chi.Mux, *zap.Logger, error) {
 
 	r.Get("/products/search", Handle.ProductHandler.SearchProducts)
 
+	r.With(middleware.CheckLoginMiddleware(db, logger)).Group(func(r chi.Router) {
+		r.Get("/auth/{id}/order", Handle.ProductHandler.CreateOrder)
+	})
 	return r, logger, nil
 }
