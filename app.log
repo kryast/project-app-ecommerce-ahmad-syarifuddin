@@ -1,2 +1,1 @@
-{"L":"INFO","T":"2024-11-23T23:54:56.181+0700","M":"Server run on post 8080"}
-{"L":"ERROR","T":"2024-11-23T23:55:01.641+0700","M":"Error fetching address","error":"sql: no rows in result set","auth_id":2}
+{"L":"INFO","T":"2024-11-24T02:14:54.946+0700","M":"Server run on post 8080"}
