@@ -67,6 +67,7 @@ func InitRouter() (*chi.Mux, *zap.Logger, error) {
 	r.Get("/profile/{id}/address", Handle.AuthHandler.GetAddressesByAuthID)
 
 	r.Put("/profile/{id}/address", Handle.AuthHandler.UpdateAddress)
+	r.Delete("/profile/{id}/address", Handle.AuthHandler.DeleteAddress)
 
 	r.With(middleware.CheckLoginMiddleware(db, logger)).Group(func(r chi.Router) {
 		r.Get("/auth/{id}/order", Handle.ProductHandler.CreateOrder)
